@@ -1,9 +1,11 @@
-const axios = require("axios");
+const axios = require("axios"); // A small REST client
+
+const hearkenUrl = "https://modules.wearehearken.com/abc/api/questions.js";
+
+let isAnon = true; // Default to anonymous
 
 function handlePOST(req, res) {
   // Do something with POST requests
-
-  console.log(req.body);
 
   // Let's get user input here from ChatFuel
   const firstName = req.body["first name"],
@@ -15,34 +17,30 @@ function handlePOST(req, res) {
 
   const fullName = firstName + " " + lastName;
 
-  let isAnon = false;
-
-  // Find out if they want to remain anon
-  if (preferAnonymous === "Yes" || preferAnonymous === "yes") {
-    isAnon = true;
-  } else {
+  // Find out if they want to remain anon or not
+  // TODO: Do some actual language processing here perhaps
+  if (preferAnonymous.includes("No") || preferAnonymous.includes("no")) {
     isAnon = false;
+  } else {
+    isAnon = true;
   }
-
-  const hearkenUrl = "https://modules.wearehearken.com/abc/api/questions.js";
 
   const payload = {
     name: fullName,
     email: email,
     display_text: formResponse,
     // custom_field_value: "4060",
-    // custom_field_name: "Postal code (optional)",
-    // opt_in_response: false,
+    // custom_field_1_name: "Postal code (optional)",
+    opt_in_response: false,
     anonymous: isAnon,
     source: "prompt_embed",
     source_id: 361
   };
 
-  console.log(payload);
-
   axios
     .post(hearkenUrl, payload)
     .then(function(response) {
+      console.log("Hearken API call successful...");
       console.log(response);
     })
     .catch(function(error) {
@@ -53,12 +51,12 @@ function handlePOST(req, res) {
 
   res.status(200).json({
     messages: [
-      { text: "Your question has been received!" },
-      { text: firstName + " " + lastName },
-      { text: email },
-      { text: formResponse },
-      { text: messengerUserId },
-      { text: preferAnonymous }
+      { text: "Your question has been received!" }
+      // { text: firstName + " " + lastName },
+      // { text: email },
+      // { text: formResponse },
+      // { text: messengerUserId },
+      // { text: preferAnonymous }
     ]
   });
 }
