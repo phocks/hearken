@@ -1,13 +1,17 @@
+// This is a Cloud Function that exposes a HTTP endpoint
+// It takes input from ChatFuel and sends it to Hearken
+
 const axios = require("axios"); // A small REST client
 
+// Set the Hearken endpoint. This is exposed through the Hearken embeds
+// https://modules.wearehearken.com/abc/embed/361/share
 const hearkenUrl = "https://modules.wearehearken.com/abc/api/questions.js";
 
+// Some initial variables
 let isAnon = true; // Default to anonymous
 
 function handlePOST(req, res) {
-  // Do something with POST requests
-
-  // Let's get user input here from ChatFuel
+  // Let's get user input here from the ChatFuel request
   const firstName = req.body["first name"],
     lastName = req.body["last name"],
     email = req.body.email,
