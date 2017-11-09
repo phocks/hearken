@@ -6,63 +6,43 @@ function handlePOST(req, res) {
   // Let's get user input here from ChatFuel
   // var input = req.body.input;
 
+  console.log(req.body["first name"]);
+
   var hearkenUrl = "https://modules.wearehearken.com/abc/api/questions.js";
 
-  axios
-  .post(hearkenUrl, {
-    name: "Joshua Byrd",
-    email: "byrd.joshua@abc.net.au",
-    display_text:
-      "Test cloud function from Josh to the JSON endpoint please disregard and delete?",
-    custom_field_value: "4060",
-    custom_field_name: "Postal code (optional)",
-    opt_in_response: false,
-    anonymous: false,
-    source: "prompt_embed",
-    source_id: 361
-  })
-  .then(function(response) {
-    console.log(response);
-  })
-  .catch(function(error) {
-    console.log(error);
-  });
+  // axios
+  // .post(hearkenUrl, {
+  //   name: "Joshua Byrd",
+  //   email: "byrd.joshua@abc.net.au",
+  //   display_text:
+  //     "Test cloud function from Josh to the JSON endpoint please disregard and delete?",
+  //   custom_field_value: "4060",
+  //   custom_field_name: "Postal code (optional)",
+  //   opt_in_response: false,
+  //   anonymous: false,
+  //   source: "prompt_embed",
+  //   source_id: 361
+  // })
+  // .then(function(response) {
+  //   console.log(response);
+  // })
+  // .catch(function(error) {
+  //   console.log(error);
+  // });
 
-  var randomNumber = Math.floor(Math.random() * input + 1);
+  // var randomNumber = Math.floor(Math.random() * input + 1);
+
   res.status(200).json({
-    messages: [{ text: "Your random number is: " + String(randomNumber) }]
+    messages: [{ text: "Your question has been received!" }]
   });
 }
 
 function handleGET(req, res) {
   // Do something with the GET request
-  var input = req.query.input;
+  // var input = req.query.input;
 
-  var hearkenUrl = "https://modules.wearehearken.com/abc/api/questions.js";
-
-  axios
-  .post(hearkenUrl, {
-    name: "Joshua Byrd",
-    email: "byrd.joshua@abc.net.au",
-    display_text:
-      "Test cloud function from Josh to the JSON endpoint please disregard and delete?",
-    custom_field_value: "4060",
-    custom_field_name: "Postal code (optional)",
-    opt_in_response: false,
-    anonymous: false,
-    source: "prompt_embed",
-    source_id: 361
-  })
-  .then(function(response) {
-    console.log(response);
-  })
-  .catch(function(error) {
-    console.log(error);
-  });
-
-  // var randomNumber = Math.floor(Math.random() * input + 1);
   res.status(200).json({
-    messages: [{ text: "Hearken question received loud and clear (hopefully)" }]
+    messages: [{ text: "This is a GET request. Please use POST if you want to actually do something..." }]
   });
 }
 
