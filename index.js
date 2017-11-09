@@ -1,4 +1,4 @@
-var axios = require("axios");
+const axios = require("axios");
 
 function handlePOST(req, res) {
   // Do something with POST requests
@@ -13,27 +13,41 @@ function handlePOST(req, res) {
     messengerUserId = req.body["messenger user id"],
     preferAnonymous = req.body.PreferAnonymous;
 
-  var hearkenUrl = "https://modules.wearehearken.com/abc/api/questions.js";
+  const fullName = firstName + " " + lastName;
 
-  // axios
-  // .post(hearkenUrl, {
-  //   name: "Joshua Byrd",
-  //   email: "byrd.joshua@abc.net.au",
-  //   display_text:
-  //     "Test cloud function from Josh to the JSON endpoint please disregard and delete?",
-  //   custom_field_value: "4060",
-  //   custom_field_name: "Postal code (optional)",
-  //   opt_in_response: false,
-  //   anonymous: false,
-  //   source: "prompt_embed",
-  //   source_id: 361
-  // })
-  // .then(function(response) {
-  //   console.log(response);
-  // })
-  // .catch(function(error) {
-  //   console.log(error);
-  // });
+  let isAnon = false;
+
+  // Find out if they want to remain anon
+  if (preferAnonymous === "Yes" || preferAnonymous === "yes") {
+    isAnon = true;
+  } else {
+    isAnon = false;
+  }
+
+  const hearkenUrl = "https://modules.wearehearken.com/abc/api/questions.js";
+
+  const payload = {
+    name: fullName,
+    email: email,
+    display_text: formResponse,
+    // custom_field_value: "4060",
+    // custom_field_name: "Postal code (optional)",
+    // opt_in_response: false,
+    anonymous: isAnon,
+    source: "prompt_embed",
+    source_id: 361
+  };
+
+  console.log(payload);
+
+  axios
+    .post(hearkenUrl, payload)
+    .then(function(response) {
+      console.log(response);
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
 
   // var randomNumber = Math.floor(Math.random() * input + 1);
 
