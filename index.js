@@ -3,10 +3,15 @@ var axios = require("axios");
 function handlePOST(req, res) {
   // Do something with POST requests
 
-  // Let's get user input here from ChatFuel
-  // var input = req.body.input;
+  console.log(req.body);
 
-  console.log(req.body["first name"]);
+  // Let's get user input here from ChatFuel
+  const firstName = req.body["first name"],
+    lastName = req.body["last name"],
+    email = req.body.email,
+    formResponse = req.body.formResponse,
+    messengerUserId = req.body["messenger user id"],
+    preferAnonymous = req.body.PreferAnonymous;
 
   var hearkenUrl = "https://modules.wearehearken.com/abc/api/questions.js";
 
@@ -33,7 +38,14 @@ function handlePOST(req, res) {
   // var randomNumber = Math.floor(Math.random() * input + 1);
 
   res.status(200).json({
-    messages: [{ text: "Your question has been received!" }]
+    messages: [
+      { text: "Your question has been received!" },
+      { text: firstName + " " + lastName },
+      { text: email },
+      { text: formResponse },
+      { text: messengerUserId },
+      { text: preferAnonymous }
+    ]
   });
 }
 
@@ -42,7 +54,12 @@ function handleGET(req, res) {
   // var input = req.query.input;
 
   res.status(200).json({
-    messages: [{ text: "This is a GET request. Please use POST if you want to actually do something..." }]
+    messages: [
+      {
+        text:
+          "This is a GET request. Please use POST if you want to actually do something..."
+      }
+    ]
   });
 }
 
@@ -50,8 +67,6 @@ function handlePUT(req, res) {
   // Do something with the PUT request
   res.status(403).send("Forbidden!");
 }
-
-
 
 /**
  * Responds to a GET request with "Hello World!". Forbids a PUT request.
@@ -74,7 +89,7 @@ exports.hearken = (req, res) => {
       handlePOST(req, res);
       break;
     default:
-      res.status(500).send({ error: "Something blew up!" });
+      res.status(500).send({ error: "Something didn't work. I'm sorry..." });
       break;
   }
 };
