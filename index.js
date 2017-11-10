@@ -16,15 +16,16 @@ function handlePOST(req, res) {
   const query = req.query;
   const body = req.body;
 
-  sourceId = +query.sourceId || 361; // Make sourceId query string a number
+  sourceId = +query.sourceId || 361; // Make sourceId query string a number and provide fallback
 
   // Let's get user input here from the ChatFuel request
-  const firstName = body["first name"],
-    lastName = body["last name"],
-    email = body.email,
-    formResponse = body.formResponse,
-    messengerUserId = body["messenger user id"],
-    preferAnonymous = body.PreferAnonymous;
+  const firstName = body["first name"] || "Firstname",
+    lastName = body["last name"] || "Lastname",
+    email = body.email || "no@email.com",
+    formResponse = body.formResponse || "No response",
+    messengerUserId = body["messenger user id"] || "0000000",
+    preferAnonymous = body.PreferAnonymous || "Yes",
+    location = body.location || "0000";
 
   // console.log(query);
 
@@ -47,14 +48,17 @@ function handlePOST(req, res) {
     name: fullName,
     email: email,
     display_text: formResponse,
-    // custom_field_value: "4060",
-    // custom_field_name: "Postal code (optional)",
+    custom_fields: [
+      { name: "Location", value: location, required: false },
+      { name: "MessengerUserID", value: messengerUserId, required: true }
+    ],
     opt_in_response: false,
     anonymous: isAnon,
     source: "prompt_embed",
-    source_id: 361
+    source_id: sourceId
   };
 
+  // Post to Hearken endpoint
   // axios
   //   .post(hearkenUrl, payload)
   //   .then(function(response) {
@@ -65,18 +69,21 @@ function handlePOST(req, res) {
   //     console.log(error);
   //   });
 
-  res.status(200).json({
-    // messages: [
-    //   { text: "Your question has been received!" },
-    //   { text: firstName + " " + lastName },
-    //   { text: email },
-    //   { text: formResponse },
-    //   { text: messengerUserId },
-    //   { text: isAnon },
-    //   { text: sourceId }
-    // ],
-    redirect_to_blocks: ["Hearken success"]
-  });
+  res.status(200).json(
+    payload
+    //   {
+    //   messages: [
+    //     { text: "Your question has been received!" },
+    //     { text: firstName + " " + lastName },
+    //     { text: email },
+    //     { text: formResponse },
+    //     { text: messengerUserId },
+    //     { text: isAnon },
+    //     { text: sourceId }
+    //   ],
+    //   redirect_to_blocks: ["Hearken success"]
+    // }
+  );
 }
 
 function handleGET(req, res) {
