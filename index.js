@@ -23,9 +23,9 @@ function handlePOST(req, res) {
     lastName = body["last name"] || "Lastname",
     email = body.email || "no@email.com",
     formResponse = body.formResponse || "No response",
-    messengerUserId = body["messenger user id"] || "0000000",
+    messengerUserId = body["messenger user id"] || "none-provided",
     preferAnonymous = body.PreferAnonymous || "Yes",
-    location = body.location || "0000";
+    location = body.location || "none-provided";
 
   // console.log(query);
 
@@ -41,6 +41,15 @@ function handlePOST(req, res) {
     isAnon = false;
   } else {
     isAnon = true;
+  }
+
+  // Did they not want to provide an email address?
+  if (
+    email.toLowerCase() === "no" ||
+    email.toLowerCase() === "nup" ||
+    email.toLowerCase() === "nope"
+  ) {
+    email = "no@email.com;";
   }
 
   // Create our payload onject that we will send to Hearken
@@ -65,14 +74,20 @@ function handlePOST(req, res) {
       console.log("Hearken API call successful...");
       // console.log(response);
       res.status(200).json({
-        messages: [{ text: "Your question has been received!" }],
+        // messages: [{ text: "Your question has been received!" }],
+        set_attributes: {
+          hearken_id: sourceId
+        },
         redirect_to_blocks: ["Hearken success"]
       });
     })
     .catch(function(error) {
       console.log(error);
       res.status(500).json({
-        messages: [{ text: "Sorry, there was an error." }],
+        // messages: [{ text: "Sorry, there was an error." }],
+        set_attributes: {
+          hearken_id: sourceId
+        },
         redirect_to_blocks: ["Hearken error"]
       });
     });
