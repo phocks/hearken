@@ -1,5 +1,5 @@
 // This is a Cloud Function that exposes a HTTP endpoint
-// It takes input from ChatFuel and sends it to Hearken
+// It takes input from Chatfuel and sends it to Hearken
 
 const axios = require("axios"); // A small REST client
 
@@ -8,60 +8,74 @@ const axios = require("axios"); // A small REST client
 const hearkenUrl = "https://modules.wearehearken.com/abc/api/questions.js";
 
 // Some initial variables
-let isAnon = true; // Default to anonymous
+let isAnon = true, // Default to anonymous
+  sourceId = 361; // use ?sourceId=361 in Chatfuel to change this
 
 function handlePOST(req, res) {
+  // We need query strings to set some parameters
+  const query = req.query;
+  const body = req.body;
+
+  sourceId = +query.sourceId || 361; // Make sourceId query string a number
+
   // Let's get user input here from the ChatFuel request
-  const firstName = req.body["first name"],
-    lastName = req.body["last name"],
-    email = req.body.email,
-    formResponse = req.body.formResponse,
-    messengerUserId = req.body["messenger user id"],
-    preferAnonymous = req.body.PreferAnonymous;
+  const firstName = body["first name"],
+    lastName = body["last name"],
+    email = body.email,
+    formResponse = body.formResponse,
+    messengerUserId = body["messenger user id"],
+    preferAnonymous = body.PreferAnonymous;
+
+  // console.log(query);
 
   const fullName = firstName + " " + lastName;
 
   // Find out if they want to remain anon or not
   // TODO: Do some actual language processing here perhaps
-  if (preferAnonymous.includes("No") || preferAnonymous.includes("no")) {
+  if (
+    preferAnonymous.toLowerCase().includes("no") ||
+    preferAnonymous.toLowerCase().includes("nup") ||
+    preferAnonymous.toLowerCase().includes("negative")
+  ) {
     isAnon = false;
   } else {
     isAnon = true;
   }
 
+  // Create our payload onject that we will send to Hearken
   const payload = {
     name: fullName,
     email: email,
     display_text: formResponse,
     // custom_field_value: "4060",
-    // custom_field_1_name: "Postal code (optional)",
+    // custom_field_name: "Postal code (optional)",
     opt_in_response: false,
     anonymous: isAnon,
     source: "prompt_embed",
     source_id: 361
   };
 
-  axios
-    .post(hearkenUrl, payload)
-    .then(function(response) {
-      console.log("Hearken API call successful...");
-      console.log(response);
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
-
-  // var randomNumber = Math.floor(Math.random() * input + 1);
+  // axios
+  //   .post(hearkenUrl, payload)
+  //   .then(function(response) {
+  //     console.log("Hearken API call successful...");
+  //     console.log(response);
+  //   })
+  //   .catch(function(error) {
+  //     console.log(error);
+  //   });
 
   res.status(200).json({
-    messages: [
-      { text: "Your question has been received!" }
-      // { text: firstName + " " + lastName },
-      // { text: email },
-      // { text: formResponse },
-      // { text: messengerUserId },
-      // { text: preferAnonymous }
-    ]
+    // messages: [
+    //   { text: "Your question has been received!" },
+    //   { text: firstName + " " + lastName },
+    //   { text: email },
+    //   { text: formResponse },
+    //   { text: messengerUserId },
+    //   { text: isAnon },
+    //   { text: sourceId }
+    // ],
+    redirect_to_blocks: ["Hearken success"]
   });
 }
 
@@ -81,18 +95,24 @@ function handleGET(req, res) {
 
 function handlePUT(req, res) {
   // Do something with the PUT request
-  res.status(403).send("Forbidden!");
+  res
+    .status(403)
+    .send(
+      "This is a PUT request. Please use POST if you want to actually do somethign..."
+    );
 }
 
 /**
  * Responds to a GET request with "Hello World!". Forbids a PUT request.
  *
  * @example
- * gcloud alpha functions call helloHttp
+ * gcloud alpha functions call hearken
  *
  * @param {Object} req Cloud Function request context.
  * @param {Object} res Cloud Function response context.
  */
+
+// Handle the request and send to appropriate function
 exports.hearken = (req, res) => {
   switch (req.method) {
     case "GET":
