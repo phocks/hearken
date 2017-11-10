@@ -59,31 +59,23 @@ function handlePOST(req, res) {
   };
 
   // Post to Hearken endpoint
-  // axios
-  //   .post(hearkenUrl, payload)
-  //   .then(function(response) {
-  //     console.log("Hearken API call successful...");
-  //     console.log(response);
-  //   })
-  //   .catch(function(error) {
-  //     console.log(error);
-  //   });
-
-  res.status(200).json(
-    payload
-    //   {
-    //   messages: [
-    //     { text: "Your question has been received!" },
-    //     { text: firstName + " " + lastName },
-    //     { text: email },
-    //     { text: formResponse },
-    //     { text: messengerUserId },
-    //     { text: isAnon },
-    //     { text: sourceId }
-    //   ],
-    //   redirect_to_blocks: ["Hearken success"]
-    // }
-  );
+  axios
+    .post(hearkenUrl, payload)
+    .then(function(response) {
+      console.log("Hearken API call successful...");
+      // console.log(response);
+      res.status(200).json({
+        messages: [{ text: "Your question has been received!" }],
+        redirect_to_blocks: ["Hearken success"]
+      });
+    })
+    .catch(function(error) {
+      console.log(error);
+      res.status(500).json({
+        messages: [{ text: "Sorry, there was an error." }],
+        redirect_to_blocks: ["Hearken error"]
+      });
+    });
 }
 
 function handleGET(req, res) {
