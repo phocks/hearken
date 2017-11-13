@@ -4,10 +4,6 @@
 const axios = require("axios"); // A small REST client
 const isemail = require("isemail");
 
-// Set the Hearken endpoint. This is exposed through the Hearken embeds
-// https://modules.wearehearken.com/abc/embed/361/share
-const hearkenUrl = "https://modules.wearehearken.com/abc/api/questions.js";
-
 function handlePOST(req, res) {
   // We need query strings to set some parameters
   const query = req.query;
@@ -24,12 +20,16 @@ function handlePOST(req, res) {
   // Some initial variables
   let isAnon = true, // Default to anonymous
     sourceId = 361, // use ?sourceId=361 in Chatfuel to change this
-    email = body.email || "noemail";
+    email = body.email || "noemail",
+    hearkenName = query.hearkenName || "abc"; // use hearkenName=
 
   // Make sourceId query string a number and provide fallback
   sourceId = +query.sourceId || 361; // Nothing special about 361 just the orig number
 
-  // console.log(query);
+  // Set the Hearken endpoint. This is exposed through the Hearken embeds
+  // https://modules.wearehearken.com/abc/embed/361/share
+  const hearkenUrl =
+    "https://modules.wearehearken.com/" + hearkenName + "/api/questions.js";
 
   // Hearken accepts a Full Name field
   const fullName = firstName + " " + lastName;
@@ -76,6 +76,7 @@ function handlePOST(req, res) {
       res.status(200).json({
         // messages: [{ text: "Your question has been received!" }],
         set_attributes: {
+          hearken_name: hearkenName,
           hearken_id: sourceId
         },
         redirect_to_blocks: ["Hearken success"]
@@ -86,11 +87,17 @@ function handlePOST(req, res) {
       res.status(500).json({
         // messages: [{ text: "Sorry, there was an error." }],
         set_attributes: {
+          hearken_name: hearkenName,
           hearken_id: sourceId
         },
         redirect_to_blocks: ["Hearken error"]
       });
     });
+
+  // Just testing
+  // res.status(200).json({
+  //   messages: [{ text: hearkenUrl }]
+  // });
 }
 
 function handleGET(req, res) {

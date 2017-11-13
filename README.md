@@ -8,8 +8,9 @@ Set up your chatfuel bot and then add a "JSON API" card.
 
 Set `TYPE` to `POST`.
 
-Set the `URL` to `https://<your instance>.cloudfunctions.net/hearken?sourceId=361`
-(replace the `361` with the number of your hearken submission embed ID.)
+Set the `URL` to `https://<your instance>.cloudfunctions.net/hearken?sourceId=361&hearkenUrl=abc`
+
+*For `sourceId` replace the `361` with the number of your hearken submission embed ID. Also for `hearkenName` replace the `abc` with the name/subdomain of your Hearken instance*
 
 Please include the following Chatfuel user attributes:
 `{{ first name }}`, `{{ last name }}`, `{{ email }}`, `{{ formResponse }}`, `{{ messenger user id }}`, `{{ PreferAnonymous }}`
