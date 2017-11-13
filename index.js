@@ -24,7 +24,7 @@ function handlePOST(req, res) {
   // Some initial variables
   let isAnon = true, // Default to anonymous
     sourceId = 361, // use ?sourceId=361 in Chatfuel to change this
-    email = body.email || "no@email.com";
+    email = body.email || "noemail";
 
   // Make sourceId query string a number and provide fallback
   sourceId = +query.sourceId || 361; // Nothing special about 361 just the orig number
@@ -35,7 +35,7 @@ function handlePOST(req, res) {
   const fullName = firstName + " " + lastName;
 
   // Find out if they want to remain anon or not
-  // TODO: Do some actual language processing here perhaps
+  // TODO: Do some actual language processing here perhaps?
   if (
     preferAnonymous.toLowerCase().includes("no") ||
     preferAnonymous.toLowerCase().includes("nup") ||
