@@ -40,7 +40,7 @@ function handlePOST(req, res) {
     preferAnonymous.toLowerCase().includes("no") ||
     preferAnonymous.toLowerCase().includes("nup") ||
     preferAnonymous.toLowerCase().includes("negative") ||
-    preferAnonymous.toLowerCase().includes("false") 
+    preferAnonymous.toLowerCase().includes("false")
   ) {
     isAnon = false;
   } else {
