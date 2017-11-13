@@ -3,6 +3,7 @@
 .env
 tmp
 .coveralls.yml
+serverless.yml
 
 # Google
 keyfile.json
