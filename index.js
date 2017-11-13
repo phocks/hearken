@@ -1,8 +1,5 @@
-// This is a Cloud Function that exposes a HTTP endpoint
-// It takes input from Chatfuel and sends it to Hearken
-
 const axios = require("axios"); // A small REST client
-const isemail = require("isemail");
+const isemail = require("isemail"); // Email address check
 
 function handlePOST(req, res) {
   // We need query strings to set some parameters

@@ -1,12 +1,12 @@
 {
-  "name": "hearken-submit",
+  "name": "chatfuel-hearken-questions",
   "version": "0.1.0",
-  "description": "",
+  "description": "Get questions from your Chatfuel audience to Hearken",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "serverless.com",
+  "author": "Joshua Byrd <phocks@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.17.0",
