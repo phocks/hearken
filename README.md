@@ -24,6 +24,3 @@ Optional user attributes: `{{ location }}`
 
 ## Author
 Send all bug reports to Joshua Byrd <phocks@gmail.com>
-
----
-[![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
