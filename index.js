@@ -27,10 +27,11 @@ function handlePOST(req, res) {
     email = body.email || "no@email.com";
 
   // Make sourceId query string a number and provide fallback
-  sourceId = +query.sourceId || 361;
+  sourceId = +query.sourceId || 361; // Nothing special about 361 just the orig number
 
   // console.log(query);
 
+  // Hearken accepts a Full Name field
   const fullName = firstName + " " + lastName;
 
   // Find out if they want to remain anon or not
@@ -38,7 +39,8 @@ function handlePOST(req, res) {
   if (
     preferAnonymous.toLowerCase().includes("no") ||
     preferAnonymous.toLowerCase().includes("nup") ||
-    preferAnonymous.toLowerCase().includes("negative")
+    preferAnonymous.toLowerCase().includes("negative") ||
+    preferAnonymous.toLowerCase().includes("false") 
   ) {
     isAnon = false;
   } else {
