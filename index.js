@@ -26,7 +26,9 @@ function handlePOST(req, res) {
   // Set the Hearken endpoint. This is exposed through the Hearken embeds
   // https://modules.wearehearken.com/abc/embed/361/share
   const hearkenUrl =
-    "https://modules.wearehearken.com/" + encodeURIComponent(hearkenName) + "/api/questions.js";
+    "https://modules.wearehearken.com/" +
+    encodeURIComponent(hearkenName) +
+    "/api/questions.js";
 
   // Hearken accepts a Full Name field
   const fullName = firstName + " " + lastName;
@@ -90,16 +92,10 @@ function handlePOST(req, res) {
         redirect_to_blocks: ["Hearken error"]
       });
     });
-
-  // Just testing
-  // res.status(200).json({
-  //   messages: [{ text: hearkenUrl }]
-  // });
 }
 
 function handleGET(req, res) {
   // Do something with the GET request
-  // var input = req.query.input;
 
   res.status(200).json({
     messages: [
@@ -121,8 +117,6 @@ function handlePUT(req, res) {
 }
 
 /**
- * Responds to a GET request with "Hello World!". Forbids a PUT request.
- *
  * @example
  * gcloud alpha functions call hearken
  *
