@@ -3,9 +3,9 @@ service: hearken-submit
 provider:
   name: google
   runtime: nodejs
-  project: direct-abacus-176206
+  project: abc-news-169508
   # the path to the credentials file needs to be absolute
-  credentials: ~/.gcloud/keyfile.json
+  credentials: ~/.gcloud/keyfile-abc-news-169508.json
 
 plugins:
   - serverless-google-cloudfunctions

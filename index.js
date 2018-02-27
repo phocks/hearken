@@ -41,14 +41,14 @@ function handlePOST(req, res) {
     preferAnonymous.toLowerCase().includes("negative") ||
     preferAnonymous.toLowerCase().includes("false")
   ) {
-    isAnon = false;
-  } else {
     isAnon = true;
+  } else {
+    isAnon = false;
   }
 
   // Did they not want to provide an email address?
   if (!isemail.validate(email)) {
-    email = "";
+    email = "noemail@noemail.com";
   }
 
   // Create our payload onject that we will send to Hearken
